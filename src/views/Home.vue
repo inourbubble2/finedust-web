@@ -1,5 +1,11 @@
 <template>
-  <Map v-bind:type="type" />
+  <div class="home">
+    <p>{{ date.getFullYear() }}년
+      {{ date.getMonth()+1 }}월
+      {{ date.getDate() }}일
+      {{ date.getHours()}}시의 구별 미세먼지 농도 </p>
+    <Map v-bind:type="type" />
+  </div>
 </template>
 
 <script>
@@ -12,12 +18,20 @@ export default {
   },
   data() {
     return {
-      type: 'now'
+      type: 'now',
+      date: new Date()
     }
-  }
+  },
 }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+.home {
+  width: 100%;
+  & > p {
+      background-color: white;
+      margin: 0px;
+      padding-bottom: 3px;
+  }
+}
 </style>
