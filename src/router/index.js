@@ -1,14 +1,16 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Map from '@/views/Map.vue'
+import Home from '../views/Home.vue'
+import Future from '../views/Future.vue'
+import Past from '../views/Past.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'Map',
-    component: Map
+    name: 'Home',
+    component: Home
   },
   {
     path: '/about',
@@ -20,13 +22,13 @@ const routes = [
   },
   {
     path: '/past',
-    name: 'Map',
-    component: Map
+    name: 'Past',
+    component: Past
   },
   {
     path: '/future',
-    name: 'Map',
-    component: Map
+    name: 'Future',
+    component: Future
   }
 ]
 
