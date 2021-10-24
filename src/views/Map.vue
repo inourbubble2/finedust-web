@@ -29,6 +29,12 @@ export default {
     this.drawMap();
   },
   methods: {
+    async getPastFineDust(year, month, day, hour) {
+      const url = 'http://localhost:5000/pm?' + 'year=' + year + '&month=' + month + '&day=' + day + '&hour=' + hour;
+      const data = await axios.get(url);
+      return data.data;
+    },
+
     async getTodayFineDust() {
       const API_KEY = process.env.VUE_APP_API_KEY;
       const url = 'http://openAPI.seoul.go.kr:8088/' + API_KEY + '/json/ListAirQualityByDistrictService/1/30';
@@ -41,17 +47,20 @@ export default {
       let data = {};
       for (let i = 0; i < response.length; i++) {
         const city = response[i];
-        const gu = city['MSRSTENAME'];
-        const pm10 = city['PM10'];
-        const grade = city['GRADE'];
-        data[gu] = {'pm10':pm10, 'grade':grade};
+        const location = city['MSRSTENAME'];
+        const pm = city['pm'];
+        // const grade = city['GRADE'];
+        // data[location] = {'pm':pm, 'grade':grade};
+        data[location] = pm;
       }
       return data;
     },
 
     async drawMap() {
-      const response = await this.getTodayFineDust();
-      const data = await this.responseToData(response);
+      const data = await this.getPastFineDust(2010, 12, 12, 20);
+
+      // const response = await this.getTodayFineDust();
+      // const data = await this.responseToData(response);
 
       const geo_json = MAP_GEO_JSON;
 
@@ -102,15 +111,16 @@ export default {
       }
 
       function nameToPm(d) {
-        return data[d.properties.name]['pm10'];
+        return data['pm_result'][d.properties.name];
       }
 
       // Get province color
       function fillFn(d) {
-        const pm10 = nameToPm(d);
-        return pmToColor(pm10);
+        const pm = nameToPm(d);
+        return pmToColor(pm);
       }
 
+      console.log(data);
       mapLayer
         .selectAll('path')
         .data(geo_json.features)
@@ -123,6 +133,9 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+#map-wrapper {
+  width: 40%;
+  background-color: antiquewhite;
+}
 </style>
