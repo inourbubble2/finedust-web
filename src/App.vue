@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div id="header">
-      서울시 미세먼지 예측과 조회
+      <h2>서울시 미세먼지 예측과 조회</h2>
     </div>
     <div id="nav">
       <router-link to="/">Home</router-link> |
