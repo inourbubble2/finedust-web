@@ -1,6 +1,11 @@
 <template>
-  <div id="map-wrapper" class="map-wrapper">
+  <div class="map">
+    <div id="loading" v-if="loading">
+      Loading...
+    </div>
+    <div id="map-wrapper" class="map-wrapper">
 
+    </div>
   </div>
 </template>
 
@@ -12,11 +17,26 @@ const MAP_GEO_JSON = require('../../seoul.geo.json')
 export default {
   name: "Map",
   props: [
-    "type"
+    "type", "year", "month", "day", "hour"
   ],
   data() {
     return {
-      data: null
+      is_first_drawing: true,
+      loading: true,
+    }
+  },
+  watch: {
+    year() {
+      this.drawMap();
+    },
+    month() {
+      this.drawMap();
+    },
+    day() {
+      this.drawMap();
+    },
+    hour() {
+      this.drawMap();
     }
   },
   computed: {
@@ -53,22 +73,16 @@ export default {
       }
       return data;
     },
-
     async drawMap() {
-      let year, month, day, hour;
+      this.loading = true;
+
       let data;
       if (this.type == 'now') {
         const response = await this.getTodayFineDust();
-        console.log(response);
         data = await this.responseToData(response);
       } else {
-        const response = await this.getPastFineDust(2010, 12, 12, 20);
-        year = response['year'];
-        month = response['month'];
-        day = response['day'];
-        hour = response['hour'];
+        const response = await this.getPastFineDust(this.year, this.month, this.day, this.hour);
         data = response['pm_result'];
-        console.log(year, month, day, hour);
       }
 
       const geo_json = MAP_GEO_JSON;
@@ -79,11 +93,22 @@ export default {
       const height = width * 1;
 
       // 지도를 그리기 위한 svg 생성
-      const svg = d3
-          .select('.map-wrapper')
-          .append('svg')
-          .attr('width', width)
-          .attr('height', height);
+      let svg
+      if (this.is_first_drawing) {
+        svg = d3
+            .select('.map-wrapper')
+            .append('svg')
+            .attr('width', width)
+            .attr('height', height);
+        this.is_first_drawing = false;
+      } else {
+        svg = d3
+            .select('.map-wrapper')
+            .select('svg')
+            .attr('width', width)
+            .attr('height', height);
+      }
+
 
       // 지도가 그려지는 그래픽 노드(g) 생성
       const g = svg.append('g');
@@ -108,9 +133,9 @@ export default {
       projection.scale(scale).translate(offset);
 
       function pmToColor(pm) {
-        if (pm < 10) {
+        if (pm < 20) {
           return '#6ba5e3';
-        } else if (pm < 20) {
+        } else if (pm < 25) {
           return '#67e073';
         } else if (pm < 30) {
           return '#e3c764';
@@ -137,14 +162,29 @@ export default {
         .attr('d', path)
         .attr('vector-effect', 'non-scaling-stroke')
         .style('fill', fillFn);
+      this.loading = false;
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
-#map-wrapper {
-  width: 40%;
-  background-color: antiquewhite;
+.map {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  & > #loading {
+    font-size: 24px;
+    font-family: Helvetica, Arial, sans-serif;
+    padding: 12px;
+  }
+  & > #map-wrapper {
+    width: 70%;
+    background-color: antiquewhite;
+  }
 }
+
 </style>
