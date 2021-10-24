@@ -185,13 +185,13 @@ export default {
 
   }
   @media screen and (max-width:512px) {
-    #map-wrapper{width: 60%};
+    #map-wrapper{width: 100%};
   }
   @media screen and (min-width:512px) and (max-width:1024px) {
-    #map-wrapper{width: 50%};
+    #map-wrapper{width: 80%};
   }
   @media screen and (min-width:1024px) {
-    #map-wrapper{width: 40%};
+    #map-wrapper{width: 48%};
   }
 }
 
