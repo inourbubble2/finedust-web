@@ -133,14 +133,16 @@ export default {
       projection.scale(scale).translate(offset);
 
       function pmToColor(pm) {
-        if (pm < 20) {
+        if (pm <= 15) {
           return '#6ba5e3';
-        } else if (pm < 25) {
+        } else if (pm <= 80) {
           return '#67e073';
-        } else if (pm < 30) {
+        } else if (pm <= 150) {
           return '#e3c764';
-        } else {
+        } else if (pm <= 300) {
           return '#e36464';
+        } else {
+          return '#FFFFFF';
         }
       }
 
