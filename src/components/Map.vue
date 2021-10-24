@@ -11,9 +11,9 @@ const MAP_GEO_JSON = require('../../seoul.geo.json')
 
 export default {
   name: "Map",
-  props: {
-
-  },
+  props: [
+    "type"
+  ],
   data() {
     return {
       data: null
@@ -48,19 +48,28 @@ export default {
       for (let i = 0; i < response.length; i++) {
         const city = response[i];
         const location = city['MSRSTENAME'];
-        const pm = city['pm'];
-        // const grade = city['GRADE'];
-        // data[location] = {'pm':pm, 'grade':grade};
+        const pm = city['PM10'];
         data[location] = pm;
       }
       return data;
     },
 
     async drawMap() {
-      const data = await this.getPastFineDust(2010, 12, 12, 20);
-
-      // const response = await this.getTodayFineDust();
-      // const data = await this.responseToData(response);
+      let year, month, day, hour;
+      let data;
+      if (this.type == 'now') {
+        const response = await this.getTodayFineDust();
+        console.log(response);
+        data = await this.responseToData(response);
+      } else {
+        const response = await this.getPastFineDust(2010, 12, 12, 20);
+        year = response['year'];
+        month = response['month'];
+        day = response['day'];
+        hour = response['hour'];
+        data = response['pm_result'];
+        console.log(year, month, day, hour);
+      }
 
       const geo_json = MAP_GEO_JSON;
 
@@ -111,7 +120,7 @@ export default {
       }
 
       function nameToPm(d) {
-        return data['pm_result'][d.properties.name];
+        return data[d.properties.name];
       }
 
       // Get province color

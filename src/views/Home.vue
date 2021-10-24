@@ -1,5 +1,5 @@
 <template>
-  <Map />
+  <Map v-bind:type="type" />
 </template>
 
 <script>
@@ -9,6 +9,11 @@ export default {
   name: "Home",
   components: {
     Map
+  },
+  data() {
+    return {
+      type: 'now'
+    }
   }
 }
 </script>
