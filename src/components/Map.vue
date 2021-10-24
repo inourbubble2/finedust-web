@@ -182,8 +182,16 @@ export default {
     padding: 12px;
   }
   & > #map-wrapper {
-    width: 70%;
-    background-color: antiquewhite;
+
+  }
+  @media screen and (max-width:512px) {
+    #map-wrapper{width: 60%};
+  }
+  @media screen and (min-width:512px) and (max-width:1024px) {
+    #map-wrapper{width: 50%};
+  }
+  @media screen and (min-width:1024px) {
+    #map-wrapper{width: 40%};
   }
 }
 
