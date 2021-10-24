@@ -12,7 +12,7 @@
 </script>
 <style lang="scss" scoped>
 .about {
-  width: 50%;
+  width: 80%;
   text-align: left;
 }
 </style>

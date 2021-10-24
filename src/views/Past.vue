@@ -58,7 +58,7 @@ export default {
     padding: 12px;
     background-color: white;
     & > select {
-      width: 80px;
+      width: 60px;
       padding: .5em .3em;
       border: 1px solid #999;
       font-family: inherit;
