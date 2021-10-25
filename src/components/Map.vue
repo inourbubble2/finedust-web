@@ -89,7 +89,7 @@ export default {
 
       // 현재 브라우저의 크기 계산
       const divWidth = document.getElementById("map-wrapper").clientWidth;
-      const width = (divWidth < 1000) ? divWidth * 0.9 : 1000;
+      const width = (divWidth < 1000) ? divWidth * 0.6 : divWidth * 0.7;
       const height = width * 0.8;
 
       // 지도를 그리기 위한 svg 생성

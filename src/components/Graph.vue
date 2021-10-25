@@ -62,22 +62,32 @@ export default {
       }
       return data;
     },
+
+    async sortData(data) {
+      const sortable = Object.entries(data)
+          .sort(([, a], [, b]) => b - a)
+          .reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
+      return sortable
+    },
+
     async drawGraph() {
       let data;
       if (this.type == 'now') {
         const response = await this.getTodayFineDust();
         data = await this.responseToData(response);
+        data = await this.sortData(data);
       } else {
         const response = await this.getPastFineDust(this.year, this.month, this.day, this.hour);
         data = response['pm_result'];
+        data = await this.sortData(data);
       }
 
       // const divWidth = document.getElementById("graph-wrapper").clientWidth;
       // const width = (divWidth < 800) ? divWidth * 0.9 : divWidth / 3;
       const width = 700;
-      const scaleFactor = 5;
+      const scaleFactor = 3;
       const barHeight = 30;
-//here
+
       let graph;
       if (this.is_first_drawing) {
         graph = d3.select("#graph-wrapper")
@@ -91,7 +101,6 @@ export default {
             .attr("width", width)
             .attr("height", barHeight * Object.values(data).length);
       }
-
 
       const bar = graph.selectAll("g")
           .data(Object.values(data))
@@ -119,7 +128,6 @@ export default {
         return d * scaleFactor;
       }).attr("height", barHeight - 3)
           .attr("fill", function (d) {
-            console.log(d);
             return pmToColor(d);
           });
 
