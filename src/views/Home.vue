@@ -5,7 +5,7 @@
       {{ date.getDate() }}일
       {{ date.getHours()}}시의 구별 미세먼지 농도 </p>
     <Map v-bind:type="type" />
-    <Graph />
+    <Graph v-bind:type="type" />
   </div>
 </template>
 

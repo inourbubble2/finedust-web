@@ -19,24 +19,27 @@
       시
     </div>
     <Map v-bind:type="type" v-bind:year="year" v-bind:month="month" v-bind:day="day" v-bind:hour="hour" />
+    <Graph v-bind:type="type" v-bind:year="year" v-bind:month="month" v-bind:day="day" v-bind:hour="hour" />
   </div>
 </template>
 
 <script>
 import Map from '@/components/Map'
+import Graph from '@/components/Graph'
 
 export default {
   name: "Past",
   components: {
-    Map
+    Map,
+    Graph
   },
   data() {
     return {
       type: 'past',
-      year: 2010,
-      month: 10,
-      day: 10,
-      hour: 3,
+      year: 2019,
+      month: 3,
+      day: 3,
+      hour: 17,
       years: Array.from({length:11}, (v, i)=> i+2010),
       months: Array.from({length:12}, (v, i)=> i+1),
       days: Array.from({length:31}, (v, i)=> i+1),
