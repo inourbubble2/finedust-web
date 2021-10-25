@@ -5,15 +5,18 @@
       {{ date.getDate() }}일
       {{ date.getHours()}}시의 구별 미세먼지 농도 </p>
     <Map v-bind:type="type" />
+    <Graph />
   </div>
 </template>
 
 <script>
 import Map from '@/components/Map'
+import Graph from "../components/Graph";
 
 export default {
   name: "Home",
   components: {
+    Graph,
     Map
   },
   data() {

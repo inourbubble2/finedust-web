@@ -90,7 +90,7 @@ export default {
       // 현재 브라우저의 크기 계산
       const divWidth = document.getElementById("map-wrapper").clientWidth;
       const width = (divWidth < 1000) ? divWidth * 0.9 : 1000;
-      const height = width * 1;
+      const height = width * 0.8;
 
       // 지도를 그리기 위한 svg 생성
       let svg
@@ -173,11 +173,11 @@ export default {
 <style scoped lang="scss">
 .map {
   width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 10px;
   & > #loading {
     font-size: 24px;
     font-family: Helvetica, Arial, sans-serif;
