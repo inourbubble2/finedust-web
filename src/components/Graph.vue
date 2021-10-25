@@ -37,7 +37,7 @@ export default {
     async drawGraph() {
       const response = await this.getTodayFineDust();
       let data = await this.responseToData(response);
-      data = Object.values(data);
+
 
       const divWidth = document.getElementById("graph-wrapper").clientWidth;
       const width = (divWidth < 800) ? divWidth * 0.9 : divWidth;
@@ -47,10 +47,10 @@ export default {
       const graph = d3.select("#graph-wrapper")
           .append("svg")
           .attr("width", width)
-          .attr("height", barHeight * data.length);
+          .attr("height", barHeight * Object.values(data).length);
 
       const bar = graph.selectAll("g")
-          .data(data)
+          .data(Object.values(data))
           .enter()
           .append("g")
           .attr("transform", function (d, i) {
@@ -67,8 +67,8 @@ export default {
           })
           .attr("y", barHeight / 2)
           .attr("dy", ".35em")
-          .text(function (d) {
-            return d;
+          .text(function (d, i) {
+            return " " + Object.keys(data)[i] + " " + Object.values(data)[i];
           });
     }
   }
